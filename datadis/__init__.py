@@ -28,9 +28,9 @@ def get_supplies(token: str) -> dict:
 
 def get_contract_detail(token: str, cups: str, distributorCode: int) -> dict:
     headers = {'Authorization': f'Bearer {token}'}
-    data = {'cups': cups, 'distributorCode': distributorCode}
 
-    r = requests.get(_ENDPOINTS['get_contract_detail'] + f'?cups={cups}&distributorCode={distributorCode}',
+    r = requests.get(_ENDPOINTS['get_contract_detail']
+                     + f'?cups={cups}&distributorCode={distributorCode}',
                      headers=headers)
 
     if r.status_code == 200:
