@@ -1,0 +1,38 @@
+name: Semantic Release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    concurrency: release
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+      - uses: Gr1N/setup-poetry@v7
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Lint with flake8
+        run: |
+          pip install flake8
+          flake8 .
+
+      - name: Test with pytest
+        run: poetry run pytest
+
+      - name: Python Semantic Release
+        uses: relekang/python-semantic-release@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pypi_token: ${{ secrets.PYPI_TOKEN }}
