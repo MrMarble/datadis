@@ -1,4 +1,4 @@
-from datadis import get_token, get_supplies
+from datadis import get_token, get_supplies, get_contract_detail
 from unittest import mock
 
 
@@ -31,3 +31,12 @@ def test_get_supplies(mock_get: mock.MagicMock):
     supplies = get_supplies("token")
     assert supplies is not None
     assert supplies == [{"cups": "of rice"}]
+
+
+@mock.patch('requests.get', side_effect=mock_requests)
+def test_get_contract_detail(mock_get: mock.MagicMock):
+    contract_detail = get_contract_detail("token", "cupaso", 2)
+
+    assert contract_detail is not None
+    assert contract_detail == [{"cups": "of rice"}]
+    assert "cupaso" in mock_get.call_args.args[0]
