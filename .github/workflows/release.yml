@@ -19,14 +19,16 @@ jobs:
         with:
           python-version: "3.x"
       - uses: Gr1N/setup-poetry@v7
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
 
       - name: Install dependencies
         run: poetry install
 
       - name: Lint with flake8
-        run: |
-          pip install flake8
-          flake8 .
+        run: poetry run flake8 .
 
       - name: Test with pytest
         run: poetry run pytest
