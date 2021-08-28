@@ -1,4 +1,4 @@
-from datadis import get_token
+from datadis import get_token, get_supplies
 from unittest import mock
 
 
@@ -24,3 +24,10 @@ def test_get_token(mock_post: mock.MagicMock):
     token = get_token("username", "password")
     assert token is not None
     assert token == 'token_ok'
+
+
+@mock.patch('requests.get', side_effect=mock_requests)
+def test_get_supplies(mock_get: mock.MagicMock):
+    supplies = get_supplies("token")
+    assert supplies is not None
+    assert supplies == [{"cups": "of rice"}]
