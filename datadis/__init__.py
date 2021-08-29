@@ -1,3 +1,5 @@
+from typing import List
+from datadis.types import ContractDetail, Supplie, dict_to_typed
 import requests
 
 _HOST = 'https://datadis.es'
@@ -29,7 +31,7 @@ def get_token(username: str, password: str) -> str:
         raise Exception(f'Error: {r.json()["message"]}')
 
 
-def get_supplies(token: str) -> dict:
+def get_supplies(token: str) -> List[Supplie]:
     """Search all the supplies
 
     Args:
@@ -44,12 +46,16 @@ def get_supplies(token: str) -> dict:
     headers = {'Authorization': f'Bearer {token}'}
     r = requests.get(_ENDPOINTS['get_supplies'], headers=headers)
     if r.status_code == 200:
-        return r.json()
+        result = []
+        for supply in r.json():
+            result.append(dict_to_typed(supply, Supplie))
+        return result
     else:
         raise Exception(f'Error: {r.json()["message"]}')
 
 
-def get_contract_detail(token: str, cups: str, distributorCode: int) -> dict:
+def get_contract_detail(token: str, cups: str,
+                        distributorCode: int) -> List[ContractDetail]:
     """Search the contract detail
 
     Args:
@@ -70,6 +76,9 @@ def get_contract_detail(token: str, cups: str, distributorCode: int) -> dict:
                      headers=headers)
 
     if r.status_code == 200:
-        return r.json()
+        result = []
+        for contract in r.json():
+            result.append(dict_to_typed(contract, ContractDetail))
+        return result
     else:
         raise Exception(f'Error: {r.json()["message"]}')
