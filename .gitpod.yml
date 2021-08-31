@@ -1,0 +1,9 @@
+tasks:
+  - init: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+    command: poetry install
+    env:
+      PIP_USER: no
+vscode:
+  extensions:
+    - "ms-python.python"
+    - "ms-pyright.pyright"
