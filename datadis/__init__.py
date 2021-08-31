@@ -28,7 +28,7 @@ def get_token(username: str, password: str) -> str:
     if r.status_code == 200:
         return r.text
     else:
-        raise Exception(f'Error: {r.json()["message"]}')
+        raise ConnectionError(f'Error: {r.json()["message"]}')
 
 
 def get_supplies(token: str) -> List[Supplie]:
@@ -51,17 +51,17 @@ def get_supplies(token: str) -> List[Supplie]:
             result.append(dict_to_typed(supply, Supplie))
         return result
     else:
-        raise Exception(f'Error: {r.json()["message"]}')
+        raise ConnectionError(f'Error: {r.json()["message"]}')
 
 
 def get_contract_detail(token: str, cups: str,
-                        distributorCode: int) -> List[ContractDetail]:
+                        distrubutor_code: int) -> List[ContractDetail]:
     """Search the contract detail
 
     Args:
         token (str): Bearer token
         cups (str): Cups code. Get it from get_supplies
-        distributorCode (int): Distributor code. Get it from get_supplies
+        distrubutor_code (int): Distributor code. Get it from get_supplies
 
     Raises:
         Exception: [description]
@@ -72,7 +72,7 @@ def get_contract_detail(token: str, cups: str,
     headers = {'Authorization': f'Bearer {token}'}
 
     r = requests.get(_ENDPOINTS['get_contract_detail']
-                     + f'?cups={cups}&distributorCode={distributorCode}',
+                     + f'?cups={cups}&distributorCode={distrubutor_code}',
                      headers=headers)
 
     if r.status_code == 200:
@@ -81,4 +81,4 @@ def get_contract_detail(token: str, cups: str,
             result.append(dict_to_typed(contract, ContractDetail))
         return result
     else:
-        raise Exception(f'Error: {r.json()["message"]}')
+        raise ConnectionError(f'Error: {r.json()["message"]}')
