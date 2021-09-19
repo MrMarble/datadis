@@ -1,8 +1,10 @@
 tasks:
   - init: |
+      echo "export PIP_USER=no" >> ~/.profile
+      source ~/.profile
       curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
       source $HOME/.poetry/env
-      PIP_USER=no poetry install
+      poetry install
     env:
       PIP_USER: no
 vscode:
