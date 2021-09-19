@@ -69,14 +69,14 @@ def mock_requests(*args, **kwargs):
         return MockResponse([{"cups": "of rice"}], 'token_ok', 200)
 
 
-@mock.patch('requests.post', side_effect=mock_requests)
+@mock.patch('httpx.post', side_effect=mock_requests)
 def test_get_token(mock_post: mock.MagicMock):
     token = get_token("username", "password")
     assert token is not None
     assert token == 'token_ok'
 
 
-@mock.patch('requests.get', side_effect=mock_requests)
+@mock.patch('httpx.get', side_effect=mock_requests)
 def test_get_supplies(mock_get: mock.MagicMock):
     supplies = get_supplies("token")
     assert supplies is not None
@@ -84,14 +84,14 @@ def test_get_supplies(mock_get: mock.MagicMock):
     assert supplies[0]['address'] == 'home'
 
 
-@mock.patch('requests.get', side_effect=mock_requests)
+@mock.patch('httpx.get', side_effect=mock_requests)
 def test_get_contract_detail(mock_get: mock.MagicMock):
     contract_detail = get_contract_detail("token", "cupaso", 2)
 
     assert contract_detail is not None
 
 
-@mock.patch('requests.get', side_effect=mock_requests)
+@mock.patch('httpx.get', side_effect=mock_requests)
 def test_get_consumption_data(mock_get: mock.MagicMock):
     contract_detail = get_consumption_data(
         "token", "cupaso", 2, '2021/08/01', '2021/08/31', 0, 5)
@@ -99,7 +99,7 @@ def test_get_consumption_data(mock_get: mock.MagicMock):
     assert contract_detail is not None
 
 
-@mock.patch('requests.get', side_effect=mock_requests)
+@mock.patch('httpx.get', side_effect=mock_requests)
 def test_get_max_power(mock_get: mock.MagicMock):
     contract_detail = get_max_power(
         "token", "cupaso", 2, '2021/08/01', '2021/08/31')

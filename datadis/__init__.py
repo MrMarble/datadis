@@ -1,7 +1,7 @@
 from typing import List, Literal
 from datadis.types import (
     ConsumptionData, ContractDetail, MaxPower, Supplie, dict_to_typed)
-import requests
+import httpx
 
 _HOST = 'https://datadis.es'
 _ENDPOINTS = {
@@ -27,7 +27,7 @@ def get_token(username: str, password: str) -> str:
         str: Bearer token
     """
     credentials = {'username': username, 'password': password}
-    r = requests.post(_ENDPOINTS['get_token'], data=credentials)
+    r = httpx.post(_ENDPOINTS['get_token'], data=credentials)
     if r.status_code == 200:
         return r.text
     else:
@@ -47,7 +47,7 @@ def get_supplies(token: str) -> List[Supplie]:
         dict: A dictionary with the supplies
     """
     headers = {'Authorization': f'Bearer {token}'}
-    r = requests.get(_ENDPOINTS['get_supplies'], headers=headers)
+    r = httpx.get(_ENDPOINTS['get_supplies'], headers=headers)
     if r.status_code == 200:
         result = []
         for supply in r.json():
@@ -74,9 +74,9 @@ def get_contract_detail(token: str, cups: str,
     """
     headers = {'Authorization': f'Bearer {token}'}
 
-    r = requests.get(_ENDPOINTS['get_contract_detail']
-                     + f'?cups={cups}&distributorCode={distrubutor_code}',
-                     headers=headers)
+    r = httpx.get(_ENDPOINTS['get_contract_detail']
+                  + f'?cups={cups}&distributorCode={distrubutor_code}',
+                  headers=headers)
 
     if r.status_code == 200:
         result = []
@@ -110,12 +110,12 @@ def get_consumption_data(token: str, cups: str,
     """
     headers = {'Authorization': f'Bearer {token}'}
 
-    r = requests.get(_ENDPOINTS['get_consumption_data']
-                     + f'?cups={cups}&distributorCode={distrubutor_code}'
-                     + f'&start_date={start_date}&end_date={end_date}'
-                     + f'&measurement_type={measurement_type}'
-                     + f'&point_type={point_type}',
-                     headers=headers)
+    r = httpx.get(_ENDPOINTS['get_consumption_data']
+                  + f'?cups={cups}&distributorCode={distrubutor_code}'
+                  + f'&start_date={start_date}&end_date={end_date}'
+                  + f'&measurement_type={measurement_type}'
+                  + f'&point_type={point_type}',
+                  headers=headers)
 
     if r.status_code == 200:
         result = []
@@ -145,10 +145,10 @@ def get_max_power(token: str, cups: str, distrubutor_code: int,
     """
     headers = {'Authorization': f'Bearer {token}'}
 
-    r = requests.get(_ENDPOINTS['get_max_power']
-                     + f'?cups={cups}&distributorCode={distrubutor_code}'
-                     + f'&start_date={start_date}&end_date={end_date}',
-                     headers=headers)
+    r = httpx.get(_ENDPOINTS['get_max_power']
+                  + f'?cups={cups}&distributorCode={distrubutor_code}'
+                  + f'&start_date={start_date}&end_date={end_date}',
+                  headers=headers)
 
     if r.status_code == 200:
         result = []
