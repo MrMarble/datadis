@@ -58,6 +58,13 @@ def mock_requests(*args, **kwargs):
             "consumptionKWh": 0.194,
             "obtainMethod": "Real"
         }])
+    elif args[0].startswith(_ENDPOINTS['get_max_power']):
+        return MockResponse([{
+            "cups": "1234ABC",
+            "date": "2021/08/21",
+            "time": "13:30",
+            "maxPower": 3.788
+        }])
     else:
         return MockResponse([{"cups": "of rice"}], 'token_ok', 200)
 

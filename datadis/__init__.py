@@ -1,6 +1,6 @@
 from typing import List, Literal
 from datadis.types import (
-    ConsumptionData, ContractDetail, Supplie, dict_to_typed)
+    ConsumptionData, ContractDetail, MaxPower, Supplie, dict_to_typed)
 import requests
 
 _HOST = 'https://datadis.es'
@@ -9,6 +9,7 @@ _ENDPOINTS = {
     'get_supplies': f'{_HOST}/api-private/api/get-supplies',
     'get_contract_detail': f'{_HOST}/api-private/api/get-contract-detail',
     'get_consumption_data': f'{_HOST}/api-private/api/get-consumption-data',
+    'get_max_power': f'{_HOST}/api-private/api/get-max-power',
 }
 
 
@@ -102,6 +103,26 @@ def get_consumption_data(token: str, cups: str,
         result = []
         for contract in r.json():
             result.append(dict_to_typed(contract, ConsumptionData))
+        return result
+    else:
+        raise ConnectionError(f'Error: {r.json()["message"]}')
+
+
+def get_max_power(token: str, cups: str,
+                  distrubutor_code: str, start_date: str, end_date: str,
+                  measurement_type: Literal[0, 1]
+                  ) -> List[MaxPower]:
+    headers = {'Authorization': f'Bearer {token}'}
+
+    r = requests.get(_ENDPOINTS['get_max_power']
+                     + f'?cups={cups}&distributorCode={distrubutor_code}'
+                     + f'&start_date={start_date}&end_date={end_date}',
+                     headers=headers)
+
+    if r.status_code == 200:
+        result = []
+        for contract in r.json():
+            result.append(dict_to_typed(contract, MaxPower))
         return result
     else:
         raise ConnectionError(f'Error: {r.json()["message"]}')

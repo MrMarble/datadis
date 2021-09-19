@@ -38,7 +38,14 @@ class ConsumptionData(TypedDict):
     obtainMethod: str
 
 
-T = TypeVar('T', Supplie, ConsumptionData, ContractDetail)
+class MaxPower(TypedDict):
+    cups: str
+    date: str
+    time: str
+    maxPower: float
+
+
+T = TypeVar('T', Supplie, ConsumptionData, ContractDetail, MaxPower)
 
 
 def dict_to_typed(data: Mapping[str, Any], typed: Type[T]) -> T:
