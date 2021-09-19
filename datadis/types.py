@@ -1,4 +1,4 @@
-from typing import Any, List, Mapping, TypedDict
+from typing import Any, Iterable, List, Mapping, Type, TypeVar, TypedDict
 
 
 class Supplie(TypedDict):
@@ -38,8 +38,11 @@ class ConsumptionData(TypedDict):
     obtainMethod: str
 
 
-def dict_to_typed(data: Mapping[str, Any], typed: TypedDict) -> TypedDict:
-    result = typed()
+T = TypeVar('T', Supplie, ConsumptionData, ContractDetail)
+
+
+def dict_to_typed(data: Mapping[str, Any], typed: Type[T]) -> T:
+    result: T = typed.__call__()
     for key, _ in typed.__annotations__.items():
         if key not in data:
             raise ValueError(f"Key: {key} is not available in data.")
