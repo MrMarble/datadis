@@ -1,4 +1,4 @@
-from datadis import (get_consumption_data, get_token,
+from datadis import (get_consumption_data, get_max_power, get_token,
                      get_supplies, get_contract_detail, _ENDPOINTS)
 from unittest import mock
 
@@ -94,6 +94,14 @@ def test_get_contract_detail(mock_get: mock.MagicMock):
 @mock.patch('requests.get', side_effect=mock_requests)
 def test_get_consumption_data(mock_get: mock.MagicMock):
     contract_detail = get_consumption_data(
-        "token", "cupaso", '2', '2021/08/01', '2021/08/31', 0)
+        "token", "cupaso", 2, '2021/08/01', '2021/08/31', 0, 5)
+
+    assert contract_detail is not None
+
+
+@mock.patch('requests.get', side_effect=mock_requests)
+def test_get_max_power(mock_get: mock.MagicMock):
+    contract_detail = get_max_power(
+        "token", "cupaso", 2, '2021/08/01', '2021/08/31')
 
     assert contract_detail is not None
