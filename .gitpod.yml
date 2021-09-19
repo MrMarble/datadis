@@ -9,3 +9,4 @@ vscode:
   extensions:
     - "ms-python.python"
     - "ms-pyright.pyright"
+    - "bungcip.better-toml"
