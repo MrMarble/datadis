@@ -1,4 +1,4 @@
-from typing import Any, Iterable, List, Mapping, Type, TypeVar, TypedDict
+from typing import Any, List, Mapping, Type, TypeVar, TypedDict
 
 
 class Supplie(TypedDict):
