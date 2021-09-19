@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v0.6.0 (2021-09-19)
+### Feature
+* **method:** Add get_max_power ([`b5e9133`](https://github.com/MrMarble/datadis/commit/b5e9133ca15b918c0b355fb54a6ec1da8b07d1eb))
+
+### Fix
+* Type casting ([`03570d6`](https://github.com/MrMarble/datadis/commit/03570d6dfcda9bad215fbb2f0943ab501c70def3))
+
+### Documentation
+* Add method comments ([`c45523e`](https://github.com/MrMarble/datadis/commit/c45523e5d79f4b41a17f7b6e58691ea822d55d6e))
+
 ## v0.5.0 (2021-09-19)
 ### Feature
 * **method:** Add get_consumption_data ([`048783c`](https://github.com/MrMarble/datadis/commit/048783ceee5e420510162c4417af80fff69fc20c))
