@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.0 (2021-09-19)
+### Feature
+* **method:** Add get_consumption_data ([`048783c`](https://github.com/MrMarble/datadis/commit/048783ceee5e420510162c4417af80fff69fc20c))
+
+### Documentation
+* **readme:** Change sonarcloud badge ([`b696b20`](https://github.com/MrMarble/datadis/commit/b696b202b54db18d76dac936b82ae54774ca3637))
+* **readme:** Add badges ([`881cc8d`](https://github.com/MrMarble/datadis/commit/881cc8df4a9d168ec40566c88ba5bc2255e5d4cb))
+
 ## v0.4.0 (2021-08-29)
 ### Feature
 * Add typing ([`2cc7b38`](https://github.com/MrMarble/datadis/commit/2cc7b3805872cccb1f18aa2d6c74afcb0a816232))
