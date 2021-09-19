@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.7.1 (2021-09-19)
+### Fix
+* Use concurrent insted of async ([`40b1fcc`](https://github.com/MrMarble/datadis/commit/40b1fcc5e2e17f278b93bdd5f1955fefeb1fed14))
+
 ## v0.7.0 (2021-09-19)
 ### Feature
 * Add async methods ([`fdffb7c`](https://github.com/MrMarble/datadis/commit/fdffb7cfad38c687944a63b7423d3ae542e28153))
