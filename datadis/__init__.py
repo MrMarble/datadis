@@ -88,8 +88,8 @@ def get_contract_detail(token: str, cups: str,
 
 
 def get_consumption_data(token: str, cups: str,
-                         distrubutor_code: str, start_date: str, end_date: str,
-                         measurement_type: Literal[0, 1], point_type: str
+                         distrubutor_code: int, start_date: str, end_date: str,
+                         measurement_type: Literal[0, 1], point_type: int
                          ) -> List[ConsumptionData]:
     """Search the consumption data
 
@@ -126,7 +126,7 @@ def get_consumption_data(token: str, cups: str,
         raise ConnectionError(f'Error: {r.json()["message"]}')
 
 
-def get_max_power(token: str, cups: str, distrubutor_code: str,
+def get_max_power(token: str, cups: str, distrubutor_code: int,
                   start_date: str, end_date: str) -> List[MaxPower]:
     """Search the maximum power and the result will appear in kW
 
