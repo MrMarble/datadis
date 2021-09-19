@@ -89,14 +89,32 @@ def get_contract_detail(token: str, cups: str,
 
 def get_consumption_data(token: str, cups: str,
                          distrubutor_code: str, start_date: str, end_date: str,
-                         measurement_type: Literal[0, 1]
+                         measurement_type: Literal[0, 1], point_type: str
                          ) -> List[ConsumptionData]:
+    """Search the consumption data
+
+    Args:
+        token (str): Bearer token
+        cups (str): Cups code. Get it from get_supplies
+        start_date (str): start date beetween search data. Format: YYYY/MM/dd
+        end_date (str): end date beetween search data. Format: YYYY/MM/dd
+        measurement_type (str): 0 -> Hourly, 1 -> quarter hourly
+        pointType (str): Point type code, get it from get-supplies
+        distrubutor_code (int): Distributor code. Get it from get_supplies
+
+    Raises:
+        Exception: [description]
+
+    Returns:
+        dict: [description]
+    """
     headers = {'Authorization': f'Bearer {token}'}
 
     r = requests.get(_ENDPOINTS['get_consumption_data']
                      + f'?cups={cups}&distributorCode={distrubutor_code}'
                      + f'&start_date={start_date}&end_date={end_date}'
-                     + f'&measurement_type={measurement_type}',
+                     + f'&measurement_type={measurement_type}'
+                     + f'&point_type={point_type}',
                      headers=headers)
 
     if r.status_code == 200:
@@ -108,10 +126,23 @@ def get_consumption_data(token: str, cups: str,
         raise ConnectionError(f'Error: {r.json()["message"]}')
 
 
-def get_max_power(token: str, cups: str,
-                  distrubutor_code: str, start_date: str, end_date: str,
-                  measurement_type: Literal[0, 1]
-                  ) -> List[MaxPower]:
+def get_max_power(token: str, cups: str, distrubutor_code: str,
+                  start_date: str, end_date: str) -> List[MaxPower]:
+    """Search the maximum power and the result will appear in kW
+
+    Args:
+        token (str): Bearer token
+        cups (str): Cups code. Get it from get_supplies
+        start_date (str): start date beetween search data. Format: YYYY/MM
+        end_date (str): end date beetween search data. Format: YYYY/MM
+        distrubutor_code (int): Distributor code. Get it from get_supplies
+
+    Raises:
+        Exception: [description]
+
+    Returns:
+        dict: [description]
+    """
     headers = {'Authorization': f'Bearer {token}'}
 
     r = requests.get(_ENDPOINTS['get_max_power']
