@@ -7,7 +7,7 @@ authors = ["Alvaro Tinoco <alvarotinocomarmol@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-requests = "^2.26.0"
+httpx = "^0.19.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
