@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.7.0 (2021-09-19)
+### Feature
+* Add async methods ([`fdffb7c`](https://github.com/MrMarble/datadis/commit/fdffb7cfad38c687944a63b7423d3ae542e28153))
+
+### Documentation
+* **readme:** Basic usage ([`d0412f9`](https://github.com/MrMarble/datadis/commit/d0412f961542c2bb3994211d2496944c59c91e00))
+
 ## v0.6.0 (2021-09-19)
 ### Feature
 * **method:** Add get_max_power ([`b5e9133`](https://github.com/MrMarble/datadis/commit/b5e9133ca15b918c0b355fb54a6ec1da8b07d1eb))
