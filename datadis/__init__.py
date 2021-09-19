@@ -88,7 +88,8 @@ def get_contract_detail(token: str, cups: str,
 
 def get_consumption_data(token: str, cups: str,
                          distrubutor_code: str, start_date: str, end_date: str,
-                         measurement_type: Literal[0, 1]) -> List[ConsumptionData]:
+                         measurement_type: Literal[0, 1]
+                         ) -> List[ConsumptionData]:
     headers = {'Authorization': f'Bearer {token}'}
 
     r = requests.get(_ENDPOINTS['get_consumption_data']
