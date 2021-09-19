@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "datadis"
-version = "0.5.0"
+version = "0.6.0"
 description = "Datadis API client"
 readme = "README.md"
 authors = ["Alvaro Tinoco <alvarotinocomarmol@gmail.com>"]
