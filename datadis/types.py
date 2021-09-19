@@ -30,9 +30,17 @@ class ContractDetail(TypedDict):
     endDate: str
 
 
+class ConsumptionData(TypedDict):
+    cups: str
+    date: str
+    time: str
+    consumptionKWh: float
+    obtainMethod: str
+
+
 def dict_to_typed(data: Mapping[str, Any], typed: TypedDict) -> TypedDict:
     result = typed()
-    for key, key_type in typed.__annotations__.items():
+    for key, _ in typed.__annotations__.items():
         if key not in data:
             raise ValueError(f"Key: {key} is not available in data.")
         result[key] = data[key]

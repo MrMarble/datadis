@@ -1,4 +1,5 @@
-from datadis import get_token, get_supplies, get_contract_detail, _ENDPOINTS
+from datadis import (get_consumption_data, get_token,
+                     get_supplies, get_contract_detail, _ENDPOINTS)
 from unittest import mock
 
 
@@ -32,7 +33,7 @@ def mock_requests(*args, **kwargs):
     elif args[0].startswith(_ENDPOINTS['get_contract_detail']):
         return MockResponse([{
             "address": "home",
-            "cups": "1234ABC",
+            "cups": "c",
             "postalCode": "1024",
             "province": "madrid",
             "municipality": "madrid",
@@ -49,6 +50,14 @@ def mock_requests(*args, **kwargs):
             "startDate": "2020/09",
             "endDate": "2020/09",
         }], status_code=200)
+    elif args[0].startswith(_ENDPOINTS['get_consumption_data']):
+        return MockResponse([{
+            "cups": "1234ABC",
+            "date": "2021/08/01",
+            "time": "01:00",
+            "consumptionKWh": 0.194,
+            "obtainMethod": "Real"
+        }])
     else:
         return MockResponse([{"cups": "of rice"}], 'token_ok', 200)
 
@@ -71,5 +80,13 @@ def test_get_supplies(mock_get: mock.MagicMock):
 @mock.patch('requests.get', side_effect=mock_requests)
 def test_get_contract_detail(mock_get: mock.MagicMock):
     contract_detail = get_contract_detail("token", "cupaso", 2)
+
+    assert contract_detail is not None
+
+
+@mock.patch('requests.get', side_effect=mock_requests)
+def test_get_consumption_data(mock_get: mock.MagicMock):
+    contract_detail = get_consumption_data(
+        "token", "cupaso", '2', '2021/08/01', '2021/08/31', 0)
 
     assert contract_detail is not None
