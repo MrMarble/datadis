@@ -2,7 +2,7 @@ tasks:
   - init: |
       curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
       source $HOME/.poetry/env
-      poetry install
+      PIP_USER=no poetry install
     env:
       PIP_USER: no
 vscode:
