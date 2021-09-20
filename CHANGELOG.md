@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.7.2 (2021-09-20)
+### Fix
+* Use camelCase instead of snake case ([`788cf1b`](https://github.com/MrMarble/datadis/commit/788cf1bc33b3f407717ec1afca1b09019f418424))
+
 ## v0.7.1 (2021-09-19)
 ### Fix
 * Use concurrent insted of async ([`40b1fcc`](https://github.com/MrMarble/datadis/commit/40b1fcc5e2e17f278b93bdd5f1955fefeb1fed14))
