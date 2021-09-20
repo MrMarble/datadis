@@ -128,9 +128,9 @@ async def get_consumption_data(
         r = await client.get(
             _ENDPOINTS["get_consumption_data"]
             + f"?cups={cups}&distributorCode={distrubutor_code}"
-            + f"&start_date={start_date}&end_date={end_date}"
-            + f"&measurement_type={measurement_type}"
-            + f"&point_type={point_type}",
+            + f"&startDate={start_date}&endDate={end_date}"
+            + f"&measurementType={measurement_type}"
+            + f"&pointType={point_type}",
             headers=headers,
         )
 
@@ -166,7 +166,7 @@ async def get_max_power(
         r = await client.get(
             _ENDPOINTS["get_max_power"]
             + f"?cups={cups}&distributorCode={distrubutor_code}"
-            + f"&start_date={start_date}&end_date={end_date}",
+            + f"&startDate={start_date}&endDate={end_date}",
             headers=headers,
         )
 
