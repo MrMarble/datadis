@@ -121,7 +121,11 @@ async def get_consumption_data(
 
 
 async def get_max_power(
-    token: str, cups: str, distrubutor_code: int, start_date: str, end_date: str
+    token: str,
+    cups: str,
+    distrubutor_code: int,
+    start_date: str,
+    end_date: str,
 ) -> List[MaxPower]:
     """Search the maximum power and the result will appear in kW
 
