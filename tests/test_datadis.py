@@ -1,3 +1,10 @@
+from tests import (
+    CONSUMPTION_RESPONSE,
+    CONTRACT_RESPONSE,
+    POWER_RESPONSE,
+    SUPPLIES_RESPONSE,
+    TOKEN,
+)
 from datadis import (
     get_consumption_data,
     get_max_power,
@@ -27,95 +34,51 @@ def mock_requests(*args, **kwargs):
     print(args[0])
     if args[0].startswith(_ENDPOINTS["get_supplies"]):
         return MockResponse(
-            [
-                {
-                    "address": "home",
-                    "cups": "1234ABC",
-                    "postalCode": "1024",
-                    "province": "madrid",
-                    "municipality": "madrid",
-                    "distributor": "Energy",
-                    "validDateFrom": "2020/09",
-                    "validDateTo": "2021/09",
-                    "pointType": 0,
-                    "distributorCode": "2",
-                }
-            ],
+            SUPPLIES_RESPONSE,
             status_code=200,
         )
     elif args[0].startswith(_ENDPOINTS["get_contract_detail"]):
         return MockResponse(
-            [
-                {
-                    "address": "home",
-                    "cups": "c",
-                    "postalCode": "1024",
-                    "province": "madrid",
-                    "municipality": "madrid",
-                    "distributor": "Energy",
-                    "validDateFrom": "2020/09",
-                    "validDateTo": "2021/09",
-                    "pointType": 0,
-                    "marketer": "idk",
-                    "tension": "10",
-                    "accesFare": "10",
-                    "contractedPowerkW": ["10"],
-                    "timeDiscrimination": "4",
-                    "modePowerControl": "1",
-                    "startDate": "2020/09",
-                    "endDate": "2020/09",
-                }
-            ],
+            CONTRACT_RESPONSE,
             status_code=200,
         )
     elif args[0].startswith(_ENDPOINTS["get_consumption_data"]):
-        return MockResponse(
-            [
-                {
-                    "cups": "1234ABC",
-                    "date": "2021/08/01",
-                    "time": "01:00",
-                    "consumptionKWh": 0.194,
-                    "obtainMethod": "Real",
-                }
-            ]
-        )
+        return MockResponse(CONSUMPTION_RESPONSE)
     elif args[0].startswith(_ENDPOINTS["get_max_power"]):
-        return MockResponse(
-            [
-                {
-                    "cups": "1234ABC",
-                    "date": "2021/08/21",
-                    "time": "13:30",
-                    "maxPower": 3.788,
-                }
-            ]
-        )
+        return MockResponse(POWER_RESPONSE)
     else:
-        return MockResponse([{"cups": "of rice"}], "token_ok", 200)
+        return MockResponse([{}], TOKEN, 200)
 
 
 @pytest.mark.asyncio
 @mock.patch("httpx.AsyncClient.post", side_effect=mock_requests)
 async def test_get_token(mock_post: mock.MagicMock):
     token = await get_token("username", "password")
-    assert token is not None
-    assert token == "token_ok"
+
+    mock_post.assert_called_once()
+    assert token == TOKEN
+
 
 @pytest.mark.asyncio
 @mock.patch("httpx.AsyncClient.get", side_effect=mock_requests)
 async def test_get_supplies(mock_get: mock.MagicMock):
     supplies = await get_supplies("token")
-    assert supplies is not None
+
+    mock_get.assert_called_once()
     assert len(supplies) == 1
-    assert supplies[0]["address"] == "home"
+    assert supplies[0]["address"] == SUPPLIES_RESPONSE[0]["address"]
+
 
 @pytest.mark.asyncio
 @mock.patch("httpx.AsyncClient.get", side_effect=mock_requests)
 async def test_get_contract_detail(mock_get: mock.MagicMock):
     contract_detail = await get_contract_detail("token", "cupaso", 2)
 
+    mock_get.assert_called_once()
     assert contract_detail is not None
+    assert "distributorCode" in mock_get.call_args[0][0]
+    assert "cups" in mock_get.call_args[0][0]
+
 
 @pytest.mark.asyncio
 @mock.patch("httpx.AsyncClient.get", side_effect=mock_requests)
@@ -124,7 +87,9 @@ async def test_get_consumption_data(mock_get: mock.MagicMock):
         "token", "cupaso", 2, "2021/08/01", "2021/08/31", 0, 5
     )
 
+    mock_get.assert_called_once()
     assert contract_detail is not None
+
 
 @pytest.mark.asyncio
 @mock.patch("httpx.AsyncClient.get", side_effect=mock_requests)
@@ -133,4 +98,5 @@ async def test_get_max_power(mock_get: mock.MagicMock):
         "token", "cupaso", 2, "2021/08/01", "2021/08/31"
     )
 
+    mock_get.assert_called_once()
     assert contract_detail is not None
