@@ -76,8 +76,6 @@ async def test_get_contract_detail(mock_get: mock.MagicMock):
 
     mock_get.assert_called_once()
     assert contract_detail is not None
-    assert "distributorCode" in mock_get.call_args[0][0]
-    assert "cups" in mock_get.call_args[0][0]
 
 
 @pytest.mark.asyncio

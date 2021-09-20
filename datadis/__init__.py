@@ -1,5 +1,6 @@
-from typing import List, Literal
+from typing import List, Literal, Mapping, Type, Union
 from datadis.types import (
+    T,
     ConsumptionData,
     ContractDetail,
     MaxPower,
@@ -52,16 +53,7 @@ async def get_supplies(token: str) -> List[Supplie]:
     Returns:
         dict: A dictionary with the supplies
     """
-    headers = {"Authorization": f"Bearer {token}"}
-    async with httpx.AsyncClient() as client:
-        r = await client.get(_ENDPOINTS["get_supplies"], headers=headers)
-        if r.status_code == 200:
-            result = []
-            for supply in r.json():
-                result.append(dict_to_typed(supply, Supplie))
-            return result
-        else:
-            raise ConnectionError(f'Error: {r.json()["message"]}')
+    return await _request(_ENDPOINTS["get_supplies"], token, None, Supplie)
 
 
 async def get_contract_detail(
@@ -80,21 +72,12 @@ async def get_contract_detail(
     Returns:
         dict: [description]
     """
-    headers = {"Authorization": f"Bearer {token}"}
-    async with httpx.AsyncClient() as client:
-        r = await client.get(
-            _ENDPOINTS["get_contract_detail"]
-            + f"?cups={cups}&distributorCode={distrubutor_code}",
-            headers=headers,
-        )
 
-        if r.status_code == 200:
-            result = []
-            for contract in r.json():
-                result.append(dict_to_typed(contract, ContractDetail))
-            return result
-        else:
-            raise ConnectionError(f'Error: {r.json()["message"]}')
+    params = {"cups": cups, "distributorCode": distrubutor_code}
+
+    return await _request(
+        _ENDPOINTS["get_contract_detail"], token, params, ContractDetail
+    )
 
 
 async def get_consumption_data(
@@ -123,24 +106,18 @@ async def get_consumption_data(
     Returns:
         dict: [description]
     """
-    headers = {"Authorization": f"Bearer {token}"}
-    async with httpx.AsyncClient() as client:
-        r = await client.get(
-            _ENDPOINTS["get_consumption_data"]
-            + f"?cups={cups}&distributorCode={distrubutor_code}"
-            + f"&startDate={start_date}&endDate={end_date}"
-            + f"&measurementType={measurement_type}"
-            + f"&pointType={point_type}",
-            headers=headers,
-        )
+    params = {
+        "cups": cups,
+        "distributorCode": distrubutor_code,
+        "startDate": start_date,
+        "endDate": end_date,
+        "measurementType": measurement_type,
+        "pointType": point_type,
+    }
 
-        if r.status_code == 200:
-            result = []
-            for contract in r.json():
-                result.append(dict_to_typed(contract, ConsumptionData))
-            return result
-        else:
-            raise ConnectionError(f'Error: {r.json()["message"]}')
+    return await _request(
+        _ENDPOINTS["get_consumption_data"], token, params, ConsumptionData
+    )
 
 
 async def get_max_power(
@@ -161,19 +138,29 @@ async def get_max_power(
     Returns:
         dict: [description]
     """
+    params = {
+        "cups": cups,
+        "distributorCode": distrubutor_code,
+        "startDate": start_date,
+        "endDate": end_date,
+    }
+
+    return await _request(_ENDPOINTS["get_max_power"], token, params, MaxPower)
+
+
+async def _request(
+    endpoint: str,
+    token: str,
+    params: Union[Mapping[str, Union[str, int]], None],
+    output_type: Type[T],
+) -> List[T]:
     headers = {"Authorization": f"Bearer {token}"}
     async with httpx.AsyncClient() as client:
-        r = await client.get(
-            _ENDPOINTS["get_max_power"]
-            + f"?cups={cups}&distributorCode={distrubutor_code}"
-            + f"&startDate={start_date}&endDate={end_date}",
-            headers=headers,
-        )
-
+        r = await client.get(endpoint, params=params, headers=headers)
         if r.status_code == 200:
             result = []
             for contract in r.json():
-                result.append(dict_to_typed(contract, MaxPower))
+                result.append(dict_to_typed(contract, output_type))
             return result
         else:
             raise ConnectionError(f'Error: {r.json()["message"]}')
