@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.7.3 (2021-09-28)
+### Fix
+* **httpx:** Increase timeout ([`21e53f5`](https://github.com/MrMarble/datadis/commit/21e53f5423b163e2a533f87bae991fea36150f56))
+
 ## v0.7.2 (2021-09-20)
 ### Fix
 * Use camelCase instead of snake case ([`788cf1b`](https://github.com/MrMarble/datadis/commit/788cf1bc33b3f407717ec1afca1b09019f418424))
