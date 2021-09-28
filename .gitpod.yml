@@ -4,6 +4,7 @@ tasks:
       source ~/.profile
       curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
       source $HOME/.poetry/env
+      poetry config virtualenvs.in-project true
       poetry install
     env:
       PIP_USER: no
