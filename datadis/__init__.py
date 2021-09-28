@@ -33,7 +33,7 @@ async def get_token(username: str, password: str) -> str:
         str: Bearer token
     """
     credentials = {"username": username, "password": password}
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=30.0) as client:
         r = await client.post(_ENDPOINTS["get_token"], data=credentials)
         if r.status_code == 200:
             return r.text
@@ -159,7 +159,7 @@ async def _request(
     output_type: Type[T],
 ) -> List[T]:
     headers = {"Authorization": f"Bearer {token}"}
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=30.0) as client:
         r = await client.get(endpoint, params=params, headers=headers)
         if r.status_code == 200:
             result = []
