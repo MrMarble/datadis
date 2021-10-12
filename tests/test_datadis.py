@@ -57,6 +57,7 @@ async def test_get_token(mock_post: mock.MagicMock):
 
     mock_post.assert_called_once()
     assert token == TOKEN
+    assert "params" not in mock_post.call_args[1]
 
 
 @pytest.mark.asyncio
@@ -71,11 +72,23 @@ async def test_get_supplies(mock_get: mock.MagicMock):
 
 @pytest.mark.asyncio
 @mock.patch("httpx.AsyncClient.get", side_effect=mock_requests)
+async def test_get_supplies_authorized(mock_get: mock.MagicMock):
+    supplies = await get_supplies("token", "123456789A")
+
+    mock_get.assert_called_once()
+    assert len(supplies) == 1
+    assert supplies[0]["address"] == SUPPLIES_RESPONSE[0]["address"]
+    assert mock_get.call_args[1]["params"]["authorizedNif"] == "123456789A"
+
+
+@pytest.mark.asyncio
+@mock.patch("httpx.AsyncClient.get", side_effect=mock_requests)
 async def test_get_contract_detail(mock_get: mock.MagicMock):
     contract_detail = await get_contract_detail("token", "cupaso", 2)
 
     mock_get.assert_called_once()
     assert contract_detail is not None
+    assert "authorizedNif" not in mock_get.call_args[1]["params"]
 
 
 @pytest.mark.asyncio
@@ -87,6 +100,7 @@ async def test_get_consumption_data(mock_get: mock.MagicMock):
 
     mock_get.assert_called_once()
     assert contract_detail is not None
+    assert "authorizedNif" not in mock_get.call_args[1]["params"]
 
 
 @pytest.mark.asyncio
@@ -98,3 +112,4 @@ async def test_get_max_power(mock_get: mock.MagicMock):
 
     mock_get.assert_called_once()
     assert contract_detail is not None
+    assert "authorizedNif" not in mock_get.call_args[1]["params"]

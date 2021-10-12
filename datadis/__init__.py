@@ -41,11 +41,14 @@ async def get_token(username: str, password: str) -> str:
             raise ConnectionError(f'Error: {r.json()["message"]}')
 
 
-async def get_supplies(token: str) -> List[Supplie]:
+async def get_supplies(
+    token: str, authorized_nif: str = None
+) -> List[Supplie]:
     """Search all the supplies
 
     Args:
         token (str): Bearer token
+        authorized_nif (str): NIF of the authorized people. Optional.
 
     Raises:
         Exception: If the authentication fails
@@ -53,11 +56,14 @@ async def get_supplies(token: str) -> List[Supplie]:
     Returns:
         dict: A dictionary with the supplies
     """
-    return await _request(_ENDPOINTS["get_supplies"], token, None, Supplie)
+    params = None
+    if authorized_nif:
+        params = {"authorizedNif": authorized_nif}
+    return await _request(_ENDPOINTS["get_supplies"], token, params, Supplie)
 
 
 async def get_contract_detail(
-    token: str, cups: str, distrubutor_code: int
+    token: str, cups: str, distrubutor_code: int, authorized_nif: str = None
 ) -> List[ContractDetail]:
     """Search the contract detail
 
@@ -65,6 +71,7 @@ async def get_contract_detail(
         token (str): Bearer token
         cups (str): Cups code. Get it from get_supplies
         distrubutor_code (int): Distributor code. Get it from get_supplies
+        authorized_nif (str): NIF of the authorized people. Optional.
 
     Raises:
         Exception: [description]
@@ -74,7 +81,8 @@ async def get_contract_detail(
     """
 
     params = {"cups": cups, "distributorCode": distrubutor_code}
-
+    if authorized_nif:
+        params["authorizedNif"] = authorized_nif
     return await _request(
         _ENDPOINTS["get_contract_detail"], token, params, ContractDetail
     )
@@ -88,6 +96,7 @@ async def get_consumption_data(
     end_date: str,
     measurement_type: Literal[0, 1],
     point_type: int,
+    authorized_nif: str = None,
 ) -> List[ConsumptionData]:
     """Search the consumption data
 
@@ -99,6 +108,7 @@ async def get_consumption_data(
         measurement_type (str): 0 -> Hourly, 1 -> quarter hourly
         pointType (str): Point type code, get it from get-supplies
         distrubutor_code (int): Distributor code. Get it from get_supplies
+        authorized_nif (str): NIF of the authorized people. Optional.
 
     Raises:
         Exception: [description]
@@ -114,7 +124,8 @@ async def get_consumption_data(
         "measurementType": measurement_type,
         "pointType": point_type,
     }
-
+    if authorized_nif:
+        params["authorizedNif"] = authorized_nif
     return await _request(
         _ENDPOINTS["get_consumption_data"], token, params, ConsumptionData
     )
@@ -126,6 +137,7 @@ async def get_max_power(
     distrubutor_code: int,
     start_date: str,
     end_date: str,
+    authorized_nif: str = None,
 ) -> List[MaxPower]:
     """Search the maximum power and the result will appear in kW
 
@@ -135,6 +147,7 @@ async def get_max_power(
         start_date (str): start date beetween search data. Format: YYYY/MM
         end_date (str): end date beetween search data. Format: YYYY/MM
         distrubutor_code (int): Distributor code. Get it from get_supplies
+        authorized_nif (str): NIF of the authorized people. Optional.
 
     Raises:
         Exception: [description]
@@ -148,7 +161,8 @@ async def get_max_power(
         "startDate": start_date,
         "endDate": end_date,
     }
-
+    if authorized_nif:
+        params["authorizedNif"] = authorized_nif
     return await _request(_ENDPOINTS["get_max_power"], token, params, MaxPower)
 
 
