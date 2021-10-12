@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.8.0 (2021-10-12)
+### Feature
+* Add support for authorized nif ([`2cb5157`](https://github.com/MrMarble/datadis/commit/2cb515739b548c0451aba268c9ecbfc9d78f8938))
+
+### Documentation
+* **README:** Update code example ([`ee7e4fe`](https://github.com/MrMarble/datadis/commit/ee7e4fea33b35773f5c56beddc75280ae7418214))
+
 ## v0.7.3 (2021-09-28)
 ### Fix
 * **httpx:** Increase timeout ([`21e53f5`](https://github.com/MrMarble/datadis/commit/21e53f5423b163e2a533f87bae991fea36150f56))
