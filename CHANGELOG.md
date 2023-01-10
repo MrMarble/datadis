@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v1.0.0 (2023-01-10)
+### Breaking
+* update dependencies ([`6589121`](https://github.com/MrMarble/datadis/commit/658912105d4af7d4ce7f81336a83178758eeca99))
+
+### Documentation
+* Update badges ([`3fc91aa`](https://github.com/MrMarble/datadis/commit/3fc91aab03bac46f2dad4b6e025cd70c07aaa05d))
+
 ## v0.8.0 (2021-10-12)
 ### Feature
 * Add support for authorized nif ([`2cb5157`](https://github.com/MrMarble/datadis/commit/2cb515739b548c0451aba268c9ecbfc9d78f8938))
