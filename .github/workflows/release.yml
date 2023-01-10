@@ -11,27 +11,20 @@ jobs:
     concurrency: release
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - name: Install poetry
+        run: pipx install poetry
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: "3.x"
-      - uses: Gr1N/setup-poetry@v7
-      - uses: actions/cache@v2
-        with:
-          path: ~/.cache/pypoetry/virtualenvs
-          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
-
+          cache: 'poetry'
       - name: Install dependencies
         run: poetry install
-
-      - name: Lint with flake8
-        run: poetry run flake8 .
-
-      - name: Test with pytest
-        run: poetry run pytest
+      - run: poetry run flake8 .
+      - run: poetry run pytest
 
   release:
     needs: tests
@@ -39,13 +32,9 @@ jobs:
     runs-on: ubuntu-latest
     concurrency: release
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: "3.x"
       - name: Python Semantic Release
         uses: relekang/python-semantic-release@master
         with:
