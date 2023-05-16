@@ -43,4 +43,6 @@ supplies = asyncio.run(get_supplies(token))
 #]
 ```
 
-  
+### Datadis time format
+
+The datadis documentation is a bit sparse regarding the "time" attribute in some of the answers, read this comment from *skgsergio* on the topic https://github.com/MrMarble/datadis/issues/5#issuecomment-1550262886
