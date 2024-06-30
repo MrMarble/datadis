@@ -36,6 +36,7 @@ class ConsumptionData(TypedDict):
     time: str
     consumptionKWh: float
     obtainMethod: str
+    surplusEnergyKWh: float
 
 
 class MaxPower(TypedDict):
@@ -43,6 +44,7 @@ class MaxPower(TypedDict):
     date: str
     time: str
     maxPower: float
+    period: str
 
 
 T = TypeVar("T", Supplie, ConsumptionData, ContractDetail, MaxPower)
@@ -51,7 +53,6 @@ T = TypeVar("T", Supplie, ConsumptionData, ContractDetail, MaxPower)
 def dict_to_typed(data: Mapping[str, Any], typed: Type[T]) -> T:
     result: T = typed.__call__()
     for key, _ in typed.__annotations__.items():
-        if key not in data:
-            raise ValueError(f"Key: {key} is not available in data.")
-        result[key] = data[key]
+        if key in data:
+            result[key] = data[key]
     return result
