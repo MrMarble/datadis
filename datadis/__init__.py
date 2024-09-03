@@ -181,4 +181,8 @@ async def _request(
                 result.append(dict_to_typed(contract, output_type))
             return result
         else:
-            raise ConnectionError(f'Error: {r.json()["message"]}')
+            try:
+                message = r.json()["message"]
+            except Exception as e:
+                raise ConnectionError(f'Unknown error', dict(status_code=r.status_code, content=r.text, headers=r.headers)) from e
+            raise ConnectionError(f'Error: {message}')
